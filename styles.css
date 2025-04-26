@@ -1,0 +1,78 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #fff;
+    overflow: hidden;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 2.5em;
+}
+
+#uploadForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+input[type="file"], input[type="text"], input[type="email"] {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 250px;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    width: 250px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#progressContainer {
+    display: none;
+    margin-top: 30px;
+    text-align: center;
+}
+
+#progressRing {
+    transform: rotate(-90deg);
+}
+
+#progressCircle {
+    transition: stroke-dashoffset 0.4s;
+}
+
+#progressText {
+    margin-top: 10px;
+    font-size: 1.2em;
+}
+
+footer {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8em;
+}
+
+#resultMessage, #resultLink {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+}
+    

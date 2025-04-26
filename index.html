@@ -2,31 +2,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Z Space Transfer - Upload</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z Space Transfer</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<canvas id="particle-canvas"></canvas>
-<div class="center-container">
-  <h1 class="site-title">Z Space Transfer</h1>
-  <h2>Send your files</h2>
-  <input type="file" id="file-input" multiple>
-  <input type="text" id="title-input" placeholder="Custom Title">
-  <input type="email" id="email-input" placeholder="Recipient Email">
-  <button id="upload-btn">Upload</button>
-  <div id="progress-container" class="hidden">
-    <svg class="progress-ring" width="120" height="120">
-      <circle class="progress-ring__circle" stroke="teal" stroke-width="4" fill="transparent" r="52" cx="60" cy="60"/>
-    </svg>
-    <span id="progress-text">0%</span>
-  </div>
-  <div id="message"></div>
-  <div id="download-link"></div>
-</div>
-<footer class="footer">
-  All rights reserved ©️RBSHAIKH
-</footer>
-<script src="script.js"></script>
+    <div id="uploadForm">
+        <h1>Z Space Transfer</h1>
+        <input type="file" id="fileInput" multiple />
+        <input type="text" id="titleInput" placeholder="Custom title" />
+        <input type="email" id="emailInput" placeholder="Recipient's email" />
+        <button id="uploadBtn">Upload</button>
+        <div id="progressContainer" style="display: none;">
+            <svg id="progressRing" width="150" height="150">
+                <circle cx="75" cy="75" r="70" stroke="#ddd" stroke-width="10" fill="transparent" />
+                <circle id="progressCircle" cx="75" cy="75" r="70" stroke="teal" stroke-width="10" fill="transparent" stroke-dasharray="440" stroke-dashoffset="440" />
+            </svg>
+            <span id="progressText">0%</span>
+        </div>
+        <div id="resultMessage" style="display: none;"></div>
+        <div id="resultLink" style="display: none;"></div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
+    

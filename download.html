@@ -2,27 +2,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Z Space Transfer - Download</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download - Z Space Transfer</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<canvas id="particle-canvas"></canvas>
-<div class="center-container">
-  <h1 class="site-title">Z Space Transfer</h1>
-  <h2 id="file-title">Your Download</h2>
-  <button id="download-btn"><img src="assets/download-icon.png" alt="Download" width="50"></button>
-  <div id="progress-container" class="hidden">
-    <svg class="progress-ring" width="120" height="120">
-      <circle class="progress-ring__circle" stroke="teal" stroke-width="4" fill="transparent" r="52" cx="60" cy="60"/>
-    </svg>
-    <span id="progress-text">0%</span>
-  </div>
-  <div id="message"></div>
-</div>
-<footer class="footer">
-  All rights reserved ©️RBSHAIKH
-</footer>
-<script src="script.js"></script>
+    <div class="downloadPage">
+        <h1>Download Your File</h1>
+        <div id="downloadContainer">
+            <p id="downloadTitle">Your file is ready for download.</p>
+            <a href="#" id="downloadLink" class="btn">Download</a>
+        </div>
+        <footer>
+            <p>All rights reserved ©️RBSHAIKH</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
+    

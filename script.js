@@ -1,3 +1,4 @@
+
 // --- Particles Animation ---
 const canvas = document.createElement('canvas');
 document.body.appendChild(canvas);
@@ -46,7 +47,7 @@ window.addEventListener('resize', () => {
 });
 
 // --- Upload Handling ---
-const uploadForm = document.getElementById('uploadForm');
+const uploadBtn = document.getElementById('uploadBtn');
 const fileInput = document.getElementById('fileInput');
 const emailInput = document.getElementById('emailInput');
 const titleInput = document.getElementById('titleInput');
@@ -56,9 +57,7 @@ const progressText = document.getElementById('progressText');
 const resultMessage = document.getElementById('resultMessage');
 const resultLink = document.getElementById('resultLink');
 
-uploadForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
+uploadBtn.addEventListener('click', async () => {
     if (fileInput.files.length === 0 || emailInput.value.trim() === '' || titleInput.value.trim() === '') {
         alert('Please select files, enter a title, and provide a recipient email.');
         return;
@@ -74,31 +73,22 @@ uploadForm.addEventListener('submit', async (e) => {
     setProgress(0);
 
     try {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'https://file.io');
-
-        xhr.upload.addEventListener('progress', (e) => {
-            if (e.lengthComputable) {
-                const percentComplete = Math.round((e.loaded / e.total) * 100);
-                setProgress(percentComplete);
-            }
+        const response = await fetch('https://file.io', {
+            method: 'POST',
+            body: formData
         });
-
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                const response = JSON.parse(xhr.responseText);
-                if (response.success) {
-                    setProgress(100);
-                    resultMessage.textContent = 'Transfer Complete!';
-                    resultLink.innerHTML = `<br><a href="${response.link}" target="_blank">${response.link}</a>`;
-                } else {
-                    alert('Upload failed. Please try again.');
-                }
-            }
-        };
-
-        xhr.send(formData);
-
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            setProgress(100);
+            resultMessage.textContent = 'Transfer Complete!';
+            resultLink.innerHTML = `<br><a href="${data.link}" target="_blank">${data.link}</a>`;
+            resultMessage.style.display = 'block';
+            resultLink.style.display = 'block';
+        } else {
+            alert('Upload failed. Please try again.');
+        }
     } catch (error) {
         console.error('Upload error:', error);
         alert('Upload failed. Please try again.');
@@ -112,3 +102,4 @@ function setProgress(percent) {
     progressRing.style.strokeDashoffset = offset;
     progressText.textContent = `${percent}%`;
 }
+    

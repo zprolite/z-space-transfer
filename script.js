@@ -1,99 +1,66 @@
+const uploadForm = document.getElementById('uploadForm');
+const fileInput = document.getElementById('fileInput');
+const emailInput = document.getElementById('emailInput');
+const titleInput = document.getElementById('titleInput');
+const progressContainer = document.getElementById('progressContainer');
+const progressRing = document.getElementById('progressRing');
+const progressText = document.getElementById('progressText');
+const resultMessage = document.getElementById('resultMessage');
+const resultLink = document.getElementById('resultLink');
 
-const fileInput = document.getElementById('file-input');
-const uploadBtn = document.getElementById('upload-btn');
-const emailInput = document.getElementById('email-input');
-const titleInput = document.getElementById('title-input');
-const progressContainer = document.getElementById('progress-container');
-const progressText = document.getElementById('progress-text');
-const message = document.getElementById('message');
-const downloadLink = document.getElementById('download-link');
-const downloadBtn = document.getElementById('download-btn');
-const fileTitle = document.getElementById('file-title');
+uploadForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-if (uploadBtn) {
-  uploadBtn.addEventListener('click', async () => {
-    const files = fileInput.files;
-    if (!files.length || !emailInput.value || !titleInput.value) {
-      alert('Please select files, enter a title, and recipient email.');
-      return;
+    if (fileInput.files.length === 0 || emailInput.value.trim() === '' || titleInput.value.trim() === '') {
+        alert('Please select files, enter a title, and provide a recipient email.');
+        return;
     }
 
-    let formData = new FormData();
-    Array.from(files).forEach(file => formData.append('file', file));
-    progressContainer.classList.remove('hidden');
-
-    const response = await fetch('https://file.io', {
-      method: 'POST',
-      body: formData
-    });
-
-    const result = await response.json();
-    if (result.success) {
-      message.innerText = 'Transfer Complete';
-      downloadLink.innerHTML = `<a href="${result.link}" target="_blank">${result.link}</a>`;
-    } else {
-      message.innerText = 'Transfer Failed. Please try again.';
+    const formData = new FormData();
+    for (let i = 0; i < fileInput.files.length; i++) {
+        formData.append('file', fileInput.files[i]);
     }
-  });
+
+    progressContainer.style.display = 'flex';
+    progressText.textContent = '0%';
+    setProgress(0);
+
+    try {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'https://file.io');
+
+        xhr.upload.addEventListener('progress', (e) => {
+            if (e.lengthComputable) {
+                const percentComplete = Math.round((e.loaded / e.total) * 100);
+                setProgress(percentComplete);
+            }
+        });
+
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    setProgress(100);
+                    resultMessage.textContent = 'Transfer Complete!';
+                    resultLink.innerHTML = `<br><a href="${response.link}" target="_blank">${response.link}</a>`;
+                } else {
+                    alert('Upload failed. Please try again.');
+                }
+            }
+        };
+
+        xhr.send(formData);
+
+    } catch (error) {
+        console.error('Upload error:', error);
+        alert('Upload failed. Please try again.');
+    }
+});
+
+function setProgress(percent) {
+    const radius = 70;
+    const circumference = 2 * Math.PI * radius;
+    const offset = circumference - (percent / 100) * circumference;
+    progressRing.style.strokeDashoffset = offset;
+    progressText.textContent = `${percent}%`;
 }
-
-if (downloadBtn) {
-  downloadBtn.addEventListener('click', async () => {
-    progressContainer.classList.remove('hidden');
-    const url = new URL(window.location.href);
-    const fileUrl = url.searchParams.get('file');
-    const title = url.searchParams.get('title');
-    if (title) fileTitle.innerText = title;
-
-    const response = await fetch(fileUrl);
-    const blob = await response.blob();
-    const link = document.createElement('a');
-    link.href = window.URL.createObjectURL(blob);
-    link.download = "downloaded_file";
-    link.click();
-    message.innerText = 'Download Complete';
-  });
-}
-
-// Particles background
-const canvas = document.getElementById('particle-canvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
-function createParticles() {
-  particles = [];
-  for (let i = 0; i < 100; i++) {
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      size: Math.random() * 3 + 1,
-      speedX: Math.random() * 0.5 - 0.25,
-      speedY: Math.random() * 0.5 - 0.25
-    });
-  }
-}
-createParticles();
-
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach(p => {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-    ctx.fillStyle = 'white';
-    ctx.fill();
-    p.x += p.speedX;
-    p.y += p.speedY;
-
-    if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-    if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
-  });
-  requestAnimationFrame(animateParticles);
-}
-animateParticles();

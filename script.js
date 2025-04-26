@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
         progressContainer.style.display = 'block';
         progressValue.textContent = '0%';
 
-        const uploadUrl = 'https://file.io/api/v1/upload'; // Corrected URL
+        const uploadUrl = 'https://file.io/api/v1/upload'; // Correct upload URL
         fetch(uploadUrl, {
             method: 'POST',
             body: formData
@@ -42,9 +42,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 downloadLinkContainer.style.display = 'block';
                 downloadLinkElement.href = data.link;
                 downloadLinkElement.textContent = data.link;
-
-                // Send email to recipient using an email service (setup needed separately)
-
             } else {
                 alert('Upload failed. Please try again.');
                 console.error(data);

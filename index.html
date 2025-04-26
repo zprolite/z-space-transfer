@@ -5,27 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Z Space Transfer</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="uploadForm">
-        <h1>Z Space Transfer</h1>
-        <input type="file" id="fileInput" multiple />
-        <input type="text" id="titleInput" placeholder="Custom title" />
-        <input type="email" id="emailInput" placeholder="Recipient's email" />
-        <button id="uploadBtn">Upload</button>
-        <div id="progressContainer" style="display: none;">
-            <svg id="progressRing" width="150" height="150">
-                <circle cx="75" cy="75" r="70" stroke="#ddd" stroke-width="10" fill="transparent" />
-                <circle id="progressCircle" cx="75" cy="75" r="70" stroke="teal" stroke-width="10" fill="transparent" stroke-dasharray="440" stroke-dashoffset="440" />
-            </svg>
-            <span id="progressText">0%</span>
+    <div id="particles-js"></div>
+
+    <div class="upload-container">
+        <h1 class="site-title">Z Space Transfer</h1>
+        <form id="uploadForm">
+            <input type="file" id="fileInput" multiple required>
+            <input type="text" id="titleInput" placeholder="Enter a title" required>
+            <input type="email" id="emailInput" placeholder="Recipient's Email" required>
+            <button type="submit" class="upload-btn">Upload</button>
+        </form>
+
+        <div id="progressContainer" class="progress-container" style="display:none;">
+            <div class="progress-ring">
+                <span id="progressValue">0%</span>
+            </div>
         </div>
-        <div id="resultMessage" style="display: none;"></div>
-        <div id="resultLink" style="display: none;"></div>
+
+        <div id="completionMessage" class="completion-message" style="display:none;">
+            Transfer Complete!
+        </div>
+        <div id="downloadLinkContainer" style="display:none;">
+            <a id="downloadLink" href="#" target="_blank"></a>
+        </div>
     </div>
 
+    <footer class="footer">All rights reserved ©️RBSHAIKH</footer>
+
+    <script src="particles.min.js"></script>
     <script src="script.js"></script>
+    <script>
+    particlesJS.load('particles-js', 'particles.json', function() {
+      console.log('particles.json loaded...');
+    });
+    </script>
 </body>
 </html>
-    
